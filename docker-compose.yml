@@ -1,0 +1,34 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: campusevents-backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg://campusevents:campusevents_dev_only@db:5432/campusevents
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:17
+    container_name: campusevents-db
+    environment:
+      POSTGRES_DB: campusevents
+      POSTGRES_USER: campusevents
+      POSTGRES_PASSWORD: campusevents_dev_only
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U campusevents -d campusevents"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
