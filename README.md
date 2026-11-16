@@ -56,7 +56,31 @@ git clone <YOUR-GITHUB-REPOSITORY-URL>
 cd CampusEvents
 ```
 
+### Configure environment variables
+
+Before starting the application, create your local `.env` file from the provided example.
+
+**Bash (Linux/macOS/Git Bash):**
+
+```bash
+cp .env.example .env
+```
+
+**PowerShell (Windows):**
+
+```powershell
+Copy-Item .env.example .env
+```
+
+The `.env.example` file contains development-only credentials and serves as a template for local configuration.
+
+The `.env` file contains your local development configuration and must remain uncommitted. Never commit or push this file to GitHub. Only `.env.example` should be included in the repository.
+
+Do not use development credentials in production.
+
 ### Run the initial backend and database
+
+After creating your `.env` file, start the backend and database with:
 
 ```bash
 docker compose up --build
@@ -67,7 +91,7 @@ The API will be available at `http://localhost:8000`.
 - Health check: `http://localhost:8000/health`
 - Interactive API documentation: `http://localhost:8000/docs`
 
-PostgreSQL is available locally on port `5432`. The development credentials in `docker-compose.yml` are for local development only. Do not use them in production.
+PostgreSQL is available locally on port `5432`. Its development credentials are supplied through your local `.env` file.
 
 ### Frontend
 
